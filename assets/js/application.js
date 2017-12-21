@@ -16,6 +16,7 @@ const lottery = new Vue({
         alert('所有號碼都被抽完了!')
       } else {
         self.numbers.push(luckyNumber)
+        self.numbers = self.ascNumbers
         self.notification = `${luckyNumber}`
         return luckyNumber
       }
@@ -29,6 +30,12 @@ const lottery = new Vue({
     }
   },
   computed: {
+    ascNumbers: () => {
+      self = lottery
+      return self.numbers.sort((a, b) => {
+        return a - b
+      })
+    },
     candidateNumbers: () => {
       self = lottery
       let ary = []
