@@ -4,6 +4,7 @@
 // import 'jquery/dist/jquery.js'; // jquery
 // import 'popper.js/dist/umd/popper.js'; // popper
 // import 'bootstrap/dist/js/bootstrap.js'; // bootstrap
+import './assets/js/application.js';
 
 // import css here
 import './assets/css/application.scss';
