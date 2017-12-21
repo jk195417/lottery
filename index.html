@@ -6,107 +6,72 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-  <title>Lottery</title>
+  <title>抽獎時間</title>
 
   <!-- parcel -->
-  <script src="./index.js" charset="utf-8"></script>
+  <script src="./index.js" defer charset="utf-8"></script>
 </head>
 
 <body>
   <section class="hero is-info is-bold is-medium">
     <div class="hero-body">
       <div class="container has-text-centered">
-        <h1 class="title is-1 is-spaced">抽獎時間</h1>
+        <h1 class="title is-spaced">抽獎時間</h1>
         <p class="subtitle">大家期待的<strong>抽獎</strong>即將開始!</p>
       </div>
     </div>
   </section>
-
-  <section class="section">
-    <div class="container has-text-centered">
-      <h2 class="title is-2 is-spaced">規則設定</h2>
-      <nav class="level">
-        <div class="level-item">
-          <div>
-            <p class="heading">最小</p>
-            <p class="title">1 號</p>
-          </div>
+  <div id="lottery">
+    <section class="hero is-primary">
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <h2 class="title is-spaced">抽獎範圍</h2>
+          <nav class="level">
+            <div class="level-item">
+              <div>
+                <p class="title" v-cloak>最小 {{ min }} 號</p>
+              </div>
+            </div>
+            <div class="level-item">
+              <div>
+                <p class="title" v-cloak>最大 {{ max }} 號</p>
+              </div>
+            </div>
+          </nav>
+          <nav class="level has-text-centered">
+            <div class="level-item">
+              <div class="control">
+                <input class="input has-text-centered" v-model="min">
+              </div>
+            </div>
+            <div class="level-item">
+              <div class="control">
+                <input class="input has-text-centered" v-model="max">
+              </div>
+            </div>
+          </nav>
+          <a class="button is-danger is-large" href="javascript: void(0);" v-on:click="draw">抽獎</a>
         </div>
-        <div class="level-item">
-          <div>
-            <p class="heading">最大</p>
-            <p class="title">1000 號</p>
-          </div>
-        </div>
-        <div class="level-item">
-          <div>
-            <p class="heading">抽出</p>
-            <p class="title">1 位</p>
-          </div>
-        </div>
-      </nav>
-      <a id="lottery-draw" class="button is-danger is-large" href="#lottery-list">抽獎</a>
-    </div>
-  </section>
-
-  <section id="lottery-list" class="section">
-    <div class="container">
-      <div id="lottery-notify" class="notification is-success is-hidden">
-        <button class="delete"></button>
       </div>
-      <h2 class="title is-2 is-spaced has-text-centered">名單</h2>
-      <div class="field is-grouped is-grouped-multiline">
-        <div class="control">
-          <div class="tags has-addons">
-            <span class="tag is-large">123</span>
-            <a class="tag is-large is-delete" href="javascript: void();"></a>
-          </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="notification is-success has-text-centered" v-show="notification.length > 0">
+          <button class="delete" v-on:click="clearNotification"></button> 抽中了 <span class="is-size-1">{{ notification }}</span> 號
         </div>
-        <div class="control">
-          <div class="tags has-addons">
-            <span class="tag is-large">435</span>
-            <a class="tag is-large is-delete" href="javascript: void();"></a>
-          </div>
-        </div>
-        <div class="control">
-          <div class="tags has-addons">
-            <span class="tag is-large">2313</span>
-            <a class="tag is-large is-delete" href="javascript: void();"></a>
-          </div>
-        </div>
-        <div class="control">
-          <div class="tags has-addons">
-            <span class="tag is-large">123</span>
-            <a class="tag is-large is-delete" href="javascript: void();"></a>
-          </div>
-        </div>
-        <div class="control">
-          <div class="tags has-addons">
-            <span class="tag is-large">123</span>
-            <a class="tag is-large is-delete" href="javascript: void();"></a>
-          </div>
-        </div>
-        <div class="control">
-          <div class="tags has-addons">
-            <span class="tag is-large">123</span>
-            <a class="tag is-large is-delete" href="javascript: void();"></a>
-          </div>
-        </div>
-        <div class="control">
-          <div class="tags has-addons">
-            <span class="tag is-large">123</span>
-            <a class="tag is-large is-delete" href="javascript: void();"></a>
-          </div>
-        </div>
-        <div class="control">
-          <div class="tags has-addons">
-            <span class="tag is-large">123</span>
-            <a class="tag is-large is-delete" href="javascript: void();"></a>
+        <h2 class="title is-spaced has-text-centered">中獎號碼</h2>
+        <div class="field is-grouped is-grouped-multiline">
+          <div class="control" v-for="number in numbers">
+            <div class="tags has-addons">
+              <span class="tag is-large">{{ number }}</span>
+              <a class="tag is-large is-delete" href="javascript: void(0);" v-on:click="cancel(number);"></a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </body>
 
 </html>
