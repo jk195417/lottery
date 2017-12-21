@@ -1,0 +1,12 @@
+{
+  "name": "lottery",
+  "version": "1.0.0",
+  "description": "抽獎",
+  "main": "index.js",
+  "repository": "https://github.com/jk195417/lottery.git",
+  "author": "楊竑昕 <jk195417@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "node-sass": "^4.7.2"
+  }
+}
