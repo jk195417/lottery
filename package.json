@@ -7,7 +7,8 @@
   "author": "楊竑昕 <jk195417@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "bulma": "^0.6.1"
+    "bulma": "^0.6.1",
+    "vue": "^2.5.13"
   },
   "devDependencies": {
     "node-sass": "^4.7.2",
