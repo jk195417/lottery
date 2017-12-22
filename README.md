@@ -11,6 +11,7 @@ Github page: [http://jk195417.github.io/lottery][4a122d84]
 $ git clone https://github.com/jk195417/lottery.git
 # Build dependencies and run
 $ cd lottery
+$ yarn install
 $ yarn start
 ```
 
