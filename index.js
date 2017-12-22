@@ -1,4 +1,4 @@
-// parcel enter point
+// parcel entry point
 
 // import js here
 import './assets/js/application.js';
