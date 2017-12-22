@@ -6,7 +6,9 @@ const lottery = new Vue({
     min: 1,
     max: 10,
     numbers: [],
-    notification: ''
+    notification: '',
+    drawing: false,
+    noticing: false
   },
   methods: {
     draw: () => {
@@ -15,9 +17,17 @@ const lottery = new Vue({
       if (luckyNumber === undefined) {
         alert('所有號碼都被抽完了!')
       } else {
-        self.numbers.push(luckyNumber)
-        self.numbers = self.ascNumbers
-        self.notification = `${luckyNumber}`
+        self.drawing = true
+        setTimeout(() => {
+          self.drawing = false
+          self.numbers.push(luckyNumber)
+          self.numbers = self.ascNumbers
+          self.notification = `${luckyNumber}`
+          self.noticing = true
+          setTimeout(() => {
+            self.noticing = false
+          }, 2000)
+        }, 2000)
         return luckyNumber
       }
     },
