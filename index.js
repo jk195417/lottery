@@ -4,8 +4,6 @@
 import './assets/js/application.js';
 
 // import css here
-import 'bulma/bulma.sass';
+// animate
 import 'animate.css/animate.css'
 import './assets/css/application.scss';
-
-// import img here

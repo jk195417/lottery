@@ -8,7 +8,9 @@
   "license": "MIT",
   "dependencies": {
     "animate.css": "^3.5.2",
-    "bulma": "^0.6.1",
+    "bootstrap": "^4.0.0-beta.2",
+    "jquery": "3",
+    "popper.js": "^1.12.9",
     "vue": "^2.5.13"
   },
   "devDependencies": {
@@ -16,6 +18,6 @@
     "parcel-bundler": "^1.2.1"
   },
   "scripts": {
-    "start": "parcel index.html"
+    "start": "yarn install && parcel index.html"
   }
 }

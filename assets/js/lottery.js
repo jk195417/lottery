@@ -1,105 +1,122 @@
 export default {
+  el: '#app',
   template: `
-    <div id="lottery">
-      <section class="hero is-primary">
-        <div class="hero-body">
-          <div class="container has-text-centered">
-            <h2 class="title is-spaced">抽獎範圍</h2>
-            <nav class="level">
-              <div class="level-item">
-                <div>
-                  <p class="title" v-cloak>最小 {{ min }} 號</p>
-                </div>
-              </div>
-              <div class="level-item">
-                <div>
-                  <p class="title" v-cloak>最大 {{ max }} 號</p>
-                </div>
-              </div>
-            </nav>
-            <nav class="level has-text-centered">
-              <div class="level-item">
-                <div class="control">
-                  <input class="input has-text-centered" v-model="min">
-                </div>
-              </div>
-              <div class="level-item">
-                <div class="control">
-                  <input class="input has-text-centered" v-model="max">
-                </div>
-              </div>
-            </nav>
-            <a id="lottery-draw" class="button is-danger is-large" href="javascript: void(0);" v-on:click="draw" v-bind:class="{ 'animated swing is-loading': drawing }">抽獎</a>
-          </div>
+  <div id="lottery" v-cloak>
+    <div class="jumbotron bg-transparent">
+      <h2 class="text-center">抽獎範圍</h2>
+      <div class="d-flex justify-content-around flex-wrap">
+        <div class="h3">
+          <span>最小 {{ min }} 號</span>
         </div>
-      </section>
-
-      <section class="section">
-        <div class="container">
-          <div class="notification is-success has-text-centered" v-show="notification.length > 0" v-cloak v-bind:class="{ 'animated tada': noticing }">
-            <button class="delete" v-on:click="clearNotification"></button> 抽中了 <span class="is-size-1">{{ notification }}</span> 號
-          </div>
-          <h2 class="title is-spaced has-text-centered">中獎號碼 <span class="subtitle">已抽出 <span class="is-size-2" v-cloak>{{ numbers.length }}</span> 位</span></h2>
-          <div class="field is-grouped is-grouped-multiline">
-            <div class="control" v-for="number in numbers" v-cloak>
-              <div class="tags has-addons">
-                <span class="tag is-large">{{ number }}</span>
-                <a class="tag is-large is-delete" href="javascript: void(0);" v-on:click="cancel(number);"></a>
-              </div>
-            </div>
-          </div>
+        <div class="h3">
+          <span>最大 {{ max }} 號</span>
         </div>
-      </section>
+        <div class="w-100"></div>
+        <div class="form-group">
+          <input class="form-control" v-model="min">
+        </div>
+        <div class="form-group">
+          <input class="form-control" v-model="max">
+        </div>
+      </div>
+      <div class="alert alert-info text-center mt-4" v-bind:class="{ 'animated tada': noticing, 'd-none': message.length === 0 }">
+        抽中了 <strong class="display-2 text-warning">{{ message }}</strong> 號
+        <button class="close" v-on:click="cleanMessage()">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="d-flex justify-content-center">
+        <button class="btn btn-lg btn-danger" v-on:click="draw" v-bind:class="{ 'animated swing disabled': drawing }">抽獎</button>
+      </div>
     </div>
+    <div class="container">
+      <h2 class="text-center">中獎名單
+        <span class="small">已抽出 <span class="text-warning h1" >{{ selected.length }}</span> 位</span>
+      </h2>
+      <div class="row">
+        <div class="col-10">
+          <div class="d-flex flex-wrap">
+            <button class="btn btn-lg btn-warning m-2" v-for="n in ascSelected" v-on:click="cancelSelected(n)">
+              {{ n }} 號<span class="close ml-2">&times;</span>
+            </button>
+          </div>
+        </div>
+        <div class="col-2">
+          <div class="xmas-tree"></div>
+        </div>
+      </div>
+    </div>
+  </div>
   `,
   data: () => ({
     min: 1,
     max: 10,
-    numbers: [],
-    notification: '',
+    selected: [],
+    message: '',
     drawing: false,
+    drawTime: 800,
     noticing: false,
-    candidateNumbers: []
+    noticeTime: 1000
   }),
   methods: {
-    draw () {
-      this.candidateNumbers = []
-      for (let i = this.min; i <= this.max; i++) {
-        if (!this.numbers.includes(i)) {
-          this.candidateNumbers.push(i)
-        }
-      }
-      const luckyNumber = this.candidateNumbers[Math.floor(Math.random() * this.candidateNumbers.length)]
-      if (luckyNumber === undefined) {
-        alert('所有號碼都被抽完了!')
-      } else {
+    draw: function() {
+      if (this.canDraw) {
         this.drawing = true
-        setTimeout(() => {
-          this.drawing = false
-          this.numbers.push(luckyNumber)
-          this.numbers = this.ascNumbers
-          this.notification = `${luckyNumber}`
-          this.noticing = true
-          setTimeout(() => {
-            this.noticing = false
-          }, 2000)
-        }, 2000)
-        return luckyNumber
+      } else {
+        alert('所有號碼都被抽完了!')
       }
     },
-    cancel (number) {
-      const index = this.numbers.indexOf(number)
-      return this.numbers.splice(index, 1)
+    cancelSelected: function(n) {
+      const i = this.selected.indexOf(n)
+      return this.selected.splice(i, 1)
     },
-    clearNotification: () => {
-      this.notification = ''
+    cleanMessage: function() {
+      this.message = ''
     }
   },
   computed: {
-    ascNumbers () {
-      return this.numbers.sort((a, b) => {
-        return a - b
-      })
+    range: function() {
+      const ary = []
+      for (let i = this.min; i <= this.max; i++) {
+        ary.push(i)
+      }
+      return ary;
+    },
+    canDraw: function() {
+      return this.unselected.length > 0
+    },
+    ascSelected: function() {
+      return this.selected.sort(
+        (a, b) => {
+          return a - b
+        }
+      )
+    },
+    unselected: function() {
+      return this.range.filter(n => this.selected.indexOf(n) === -1);
+    }
+  },
+  watch: {
+    drawing: function() {
+      if (!this.drawing) {
+        return
+      }
+      const i = Math.floor(Math.random() * this.unselected.length)
+      const n = this.unselected[i]
+      setTimeout(() => {
+        this.drawing = false
+        this.selected.push(n)
+        this.message = n
+        this.noticing = true
+      }, this.drawTime)
+    },
+    noticing: function() {
+      if (!this.noticing) {
+        return
+      }
+      setTimeout(() => {
+        this.noticing = false
+      }, this.noticeTime)
     }
   }
 }
