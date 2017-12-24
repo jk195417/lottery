@@ -5,6 +5,7 @@
 
 body{
   min-height: 100vh;
+  overflow-x: hidden;
 }
 .bg-transparent{
   background-color: transparent;
@@ -35,6 +36,15 @@ body{
   min-height: $size;
   min-width: $size;
   background-image: url('../img/xmas_wrench.png');
+  background-size: $size $size;
+  background-repeat: no-repeat;
+  display: inline-block;
+}
+.xmas-santacart{
+  $size: 20vw;
+  min-height: $size;
+  min-width: $size;
+  background-image: url('../img/xmas_santacart.png');
   background-size: $size $size;
   background-repeat: no-repeat;
   display: inline-block;
