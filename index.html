@@ -12,66 +12,13 @@
   <script src="/dist/lottery.js" defer="" async="" charset="utf-8"></script>
 <link rel="stylesheet" href="/dist/lottery.css"></head>
 
-<body>
-  <section class="hero is-info is-bold is-medium">
-    <div class="hero-body">
-      <div class="container has-text-centered">
-        <h1 class="title is-spaced">抽獎時間</h1>
-        <p class="subtitle">大家期待的<strong>抽獎</strong>即將開始!</p>
-      </div>
-    </div>
-  </section>
-  <div id="lottery">
-    <section class="hero is-primary">
-      <div class="hero-body">
-        <div class="container has-text-centered">
-          <h2 class="title is-spaced">抽獎範圍</h2>
-          <nav class="level">
-            <div class="level-item">
-              <div>
-                <p class="title" v-cloak="">最小 {{ min }} 號</p>
-              </div>
-            </div>
-            <div class="level-item">
-              <div>
-                <p class="title" v-cloak="">最大 {{ max }} 號</p>
-              </div>
-            </div>
-          </nav>
-          <nav class="level has-text-centered">
-            <div class="level-item">
-              <div class="control">
-                <input class="input has-text-centered" v-model="min">
-              </div>
-            </div>
-            <div class="level-item">
-              <div class="control">
-                <input class="input has-text-centered" v-model="max">
-              </div>
-            </div>
-          </nav>
-          <a id="lottery-draw" class="button is-danger is-large" href="javascript: void(0);" v-on:click="draw" v-bind:class="{ 'animated swing is-loading': drawing }">抽獎</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <div class="notification is-success has-text-centered" v-show="notification.length > 0" v-cloak="" v-bind:class="{ 'animated tada': noticing }">
-          <button class="delete" v-on:click="clearNotification"></button> 抽中了 <span class="is-size-1">{{ notification }}</span> 號
-        </div>
-        <h2 class="title is-spaced has-text-centered">中獎號碼 <span class="subtitle">已抽出 <span class="is-size-2" v-cloak="">{{ numbers.length }}</span> 位</span></h2>
-        <div class="field is-grouped is-grouped-multiline">
-          <div class="control" v-for="number in numbers" v-cloak="">
-            <div class="tags has-addons">
-              <span class="tag is-large">{{ number }}</span>
-              <a class="tag is-large is-delete" href="javascript: void(0);" v-on:click="cancel(number);"></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+<body class="bg-xmas text-white">
+  <div class="jumbotron bg-transparent text-center">
+    <h1 class="d-flex align-items-center justify-content-center"><span class="xmas-wrench"></span><span>抽獎時間</span></h1>
+    <p class="lead">大家期待的<strong>抽獎</strong>馬上開始!</p>
   </div>
+  <div id="app"></div>
+  <div class="xmas-light"></div>
 </body>
 
 </html>
