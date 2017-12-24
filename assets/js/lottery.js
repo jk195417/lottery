@@ -3,20 +3,44 @@ export default {
   template: `
   <div id="lottery" v-cloak>
     <div class="jumbotron bg-transparent">
-      <h2 class="text-center">抽獎範圍</h2>
+      <h2 class="text-center">抽獎範圍
+        <button class="btn btn-sm btn-info" data-toggle="collapse" data-target="#lottery-setting">設定</button>
+      </h2>
       <div class="d-flex justify-content-around flex-wrap">
         <div class="h3">
-          <span>最小 {{ min }} 號</span>
+          <span>{{ min }} 號</span>
         </div>
         <div class="h3">
-          <span>最大 {{ max }} 號</span>
+          <span>{{ max }} 號</span>
         </div>
-        <div class="w-100"></div>
-        <div class="form-group">
-          <input class="form-control" v-model="min">
-        </div>
-        <div class="form-group">
-          <input class="form-control" v-model="max">
+      </div>
+      <div class="collapse my-2" id="lottery-setting">
+        <div class="card card-body bg-info">
+          <div class="form-row">
+            <div class="form-group col">
+              <label>最小號碼</label>
+              <input class="form-control" v-model="min">
+            </div>
+            <div class="form-group col">
+              <label>最大號碼</label>
+              <input class="form-control" v-model="max">
+            </div>
+            <div class="form-group col">
+              <label>排序方法</label>
+              <select class="form-control" v-model="order">
+                <option>抽出順序</option>
+                <option>號碼順序</option>
+              </select>
+            </div>
+            <div class="form-group col">
+              <label>抽獎時長(ms)</label>
+              <input class="form-control" v-model="drawTime">
+            </div>
+            <div class="form-group col">
+              <label>通知時長(ms)</label>
+              <input class="form-control" v-model="noticeTime">
+            </div>
+          </div>
         </div>
       </div>
       <div class="alert alert-info text-center mt-4" v-bind:class="{ 'animated tada': noticing, 'd-none': message.length === 0 }">
@@ -25,8 +49,8 @@ export default {
           <span>&times;</span>
         </button>
       </div>
-      <div class="d-flex justify-content-center">
-        <button class="btn btn-lg btn-danger" v-on:click="draw" v-bind:class="{ 'animated swing disabled': drawing }">抽獎</button>
+      <div class="d-flex flex-wrap justify-content-center">
+        <div class="xmas-santacart" v-on:click="draw" v-bind:class="{ 'animated swing disabled': drawing }"></div>
       </div>
     </div>
     <div class="container">
@@ -35,7 +59,12 @@ export default {
       </h2>
       <div class="row">
         <div class="col-10">
-          <div class="d-flex flex-wrap">
+          <div v-bind:class="[sorted ? 'd-none' : 'd-flex flex-wrap']">
+            <button class="btn btn-lg btn-warning m-2" v-for="n in selected" v-on:click="cancelSelected(n)">
+              {{ n }} 號<span class="close ml-2">&times;</span>
+            </button>
+          </div>
+          <div v-bind:class="[sorted ? 'd-flex flex-wrap' : 'd-none']">
             <button class="btn btn-lg btn-warning m-2" v-for="n in ascSelected" v-on:click="cancelSelected(n)">
               {{ n }} 號<span class="close ml-2">&times;</span>
             </button>
@@ -50,13 +79,14 @@ export default {
   `,
   data: () => ({
     min: 1,
-    max: 10,
+    max: 100,
     selected: [],
     message: '',
     drawing: false,
     drawTime: 800,
     noticing: false,
-    noticeTime: 1000
+    noticeTime: 1000,
+    order: '抽出順序',
   }),
   methods: {
     draw: function() {
@@ -86,7 +116,8 @@ export default {
       return this.unselected.length > 0
     },
     ascSelected: function() {
-      return this.selected.sort(
+      let copy = this.selected.slice()
+      return copy.sort(
         (a, b) => {
           return a - b
         }
@@ -94,6 +125,9 @@ export default {
     },
     unselected: function() {
       return this.range.filter(n => this.selected.indexOf(n) === -1);
+    },
+    sorted: function() {
+      return this.order === '號碼順序'
     }
   },
   watch: {
