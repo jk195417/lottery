@@ -51,6 +51,8 @@ export default {
       </div>
       <div class="d-flex flex-wrap justify-content-center">
         <div class="xmas-santacart" v-on:click="draw" v-bind:class="{ 'animated swing disabled': drawing }"></div>
+        <div class="w-100"></div>
+        <div class="btn btn-lg btn-info" v-on:click="addHr">換行</div>
       </div>
     </div>
     <div class="container">
@@ -59,12 +61,13 @@ export default {
       </h2>
       <div class="row">
         <div class="col-10">
-          <div v-bind:class="[sorted ? 'd-none' : 'd-flex flex-wrap']">
+          <div id="unsorted" v-bind:class="[sorted ? 'd-none' : 'd-flex flex-wrap align-items-center']">
+            <h2 contenteditable="true">中獎:</h2>
             <button class="btn btn-lg btn-warning m-2" v-for="n in selected" v-on:click="cancelSelected(n)">
               {{ n }} 號<span class="close ml-2">&times;</span>
             </button>
           </div>
-          <div v-bind:class="[sorted ? 'd-flex flex-wrap' : 'd-none']">
+          <div v-bind:class="[sorted ? 'd-flex flex-wrap align-items-center' : 'd-none']">
             <button class="btn btn-lg btn-warning m-2" v-for="n in ascSelected" v-on:click="cancelSelected(n)">
               {{ n }} 號<span class="close ml-2">&times;</span>
             </button>
@@ -102,6 +105,9 @@ export default {
     },
     cleanMessage: function() {
       this.message = ''
+    },
+    addHr: function() {
+      $('#unsorted').append('<hr class="w-100"/><h2 contenteditable="true">中獎:</h2>')
     }
   },
   computed: {
