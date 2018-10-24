@@ -1,9 +1,9 @@
 // parcel entry point
 
-// import js here
-import './assets/js/application.js';
-
-// import css here
-// animate
+// import css main file here
+import './src/main.scss'
+// animate.css https://github.com/daneden/animate.css
 import 'animate.css/animate.css'
-import './assets/css/application.scss';
+
+// import js main file here
+import './src/main.js'

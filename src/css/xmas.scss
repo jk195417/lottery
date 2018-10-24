@@ -1,50 +1,44 @@
-// bootstrap
-@import 'node_modules/bootstrap/scss/bootstrap.scss';
-// vue
-@import 'vue.scss';
-
-body{
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-.bg-transparent{
-  background-color: transparent;
-}
 .bg-xmas{
-  background-image: url('../img/snowflake.png'), linear-gradient(to bottom, rgb(25, 60, 60),rgb(30, 70, 60),rgb(46, 98, 63) 100%);
+  background-image: url('img/snowflake.png'), linear-gradient(to bottom, rgb(25, 60, 60),rgb(30, 70, 60),rgb(46, 98, 63) 100%);
   background-repeat: repeat, no-repeat;
   background-position: center;
   background-size: 20vw 20vw, auto;
 }
 .xmas-light{
   min-height: 100px;
-  background-image: url('../img/xmas_lights.png');
+  min-width: 100vw;
+  background-image: url('img/xmas_lights.png');
   background-position: center;
+  position: absolute;
+  bottom: 0px;
 }
 .xmas-tree{
   $size: 20vw;
   min-height: $size;
   min-width: $size;
-  background-image: url('../img/xmas_tree.png');
+  background-image: url('img/xmas_tree.png');
   background-size: $size $size;
   background-repeat: no-repeat;
   position: absolute;
   bottom: 0px;
+  // right: 0px;
 }
 .xmas-wrench{
   $size: 10vw;
   min-height: $size;
   min-width: $size;
-  background-image: url('../img/xmas_wrench.png');
+  background-image: url('img/xmas_wrench.png');
   background-size: $size $size;
   background-repeat: no-repeat;
-  display: inline-block;
+  position: absolute;
+  top: 0px;
+  right: 0px;
 }
 .xmas-santacart{
   $size: 20vw;
   min-height: $size;
   min-width: $size;
-  background-image: url('../img/xmas_santacart.png');
+  background-image: url('img/xmas_santacart.png');
   background-size: $size $size;
   background-repeat: no-repeat;
   display: inline-block;

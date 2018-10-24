@@ -1,0 +1,11 @@
+$sidebar-width: 350px;
+
+#sidebar {
+  display: none;
+  width: $sidebar-width;
+  min-width: $sidebar-width - 40;
+  min-height: 100vh;
+  z-index: 1000;
+  overflow-x: hidden;
+  overflow-y: auto;
+}

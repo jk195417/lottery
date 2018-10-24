@@ -2,20 +2,24 @@
   "name": "lottery",
   "version": "1.0.0",
   "description": "抽獎",
-  "main": "index.js",
+  "main": "src/main.js",
   "repository": "https://github.com/jk195417/lottery.git",
   "author": "楊竑昕 <jk195417@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "animate.css": "^3.5.2",
-    "bootstrap": "^4.0.0-beta.2",
-    "jquery": "3",
-    "popper.js": "^1.12.9",
-    "vue": "^2.5.13"
+    "animate.css": "^3.7",
+    "bootstrap": "^4.1",
+    "components": "^0.1.0",
+    "jquery": "^3.3",
+    "popper.js": "^1.14",
+    "vue": "^2.5",
+    "vue-hot-reload-api": "^2.3.1"
   },
   "devDependencies": {
-    "node-sass": "^4.7.2",
-    "parcel-bundler": "^1.2.1"
+    "@vue/component-compiler-utils": "^2.2.0",
+    "node-sass": "^4.9",
+    "parcel-bundler": "^1.10",
+    "vue-template-compiler": "^2.5.17"
   },
   "scripts": {
     "start": "yarn install && parcel index.html"
