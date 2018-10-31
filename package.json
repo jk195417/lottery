@@ -2,11 +2,12 @@
   "name": "lottery",
   "version": "1.0.0",
   "description": "抽獎",
-  "main": "src/main.js",
+  "main": "index.js",
   "repository": "https://github.com/jk195417/lottery.git",
   "author": "楊竑昕 <jk195417@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.4.1",
     "animate.css": "^3.7",
     "bootstrap": "^4.1",
     "components": "^0.1.0",
@@ -17,11 +18,13 @@
   },
   "devDependencies": {
     "@vue/component-compiler-utils": "^2.2.0",
-    "node-sass": "^4.9",
-    "parcel-bundler": "^1.10",
+    "gh-pages": "^2.0.1",
+    "sass": "^1.14.3",
     "vue-template-compiler": "^2.5.17"
   },
   "scripts": {
-    "start": "yarn install && parcel index.html"
+    "start": "parcel index.html",
+    "predeploy": "rm -rf dist && parcel build index.html --public-url ./",
+    "deploy": "gh-pages -d dist"
   }
 }
