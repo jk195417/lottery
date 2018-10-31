@@ -1,4 +1,14 @@
-
+# Dependency Directories
 node_modules/
+
+# Cache Files
 .cache/
+
+# Log Files
 *.log
+
+# Packaged Files
+dist/
+
+# System Files
+.DS_Store
