@@ -41,7 +41,8 @@ export default {
         id: this.incrementingId,
         name: this.name,
         number: this.number,
-        imageUrl: this.imageUrl
+        imageUrl: this.imageUrl,
+        winners: []
       }
       this.gifts.push(gift)
       this.cleanForm()

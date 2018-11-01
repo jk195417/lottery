@@ -1,84 +1,101 @@
 <template lang="html">
-  <div>
-    <div
-      class="card m-2 gift btn btn-outline-dark"
-      v-bind:class="{'border-dark': isSelected}"
-      v-on:click="updateSelectedGiftId">
-      <div class="card-body" v-show="!editMode">
-        <div class="btn btn-sm float-right" v-on:click="editMode=true">
-          <i class="fas fa-cog"></i>
-        </div>
-        <h5 class="card-title">{{giftName}}</h5>
-        <p class="card-text">X {{giftNumber}}</p>
+  <tr v-bind:class="{'table-active': isSelected}" v-on:click="updateSelectedGiftId">
+    <td v-show="!editMode">
+      {{ name }}<br>
+      <img v-bind:src="imageUrl" onerror="this.src=''" style="object-fit: cover;">
+    </td>
+    <td v-show="editMode">
+      <div class="form-group">
+        <label>禮物名稱</label>
+        <input type="text" class="form-control" v-model="name">
       </div>
-      <img class="card-img-bottom" v-show="!editMode" v-bind:src="giftImageUrl" onerror="this.src=''" style="object-fit: cover;">
-      <div class="card-body" v-show="editMode">
-        <form>
-          <div class="form-group">
-            <label>禮物名稱</label>
-            <input type="text" class="form-control" v-model="giftName">
-          </div>
-          <div class="form-group">
-            <label>禮物數量</label>
-            <input type="text" class="form-control" v-model.number="giftNumber">
-          </div>
-          <div class="form-group">
-            <label>照片連結</label>
-            <input type="text" class="form-control" v-model="giftImageUrl">
-          </div>
-          <div class="d-flex">
-            <button type="button" name="button" class="btn btn-outline-secondary" v-on:click="editMode=false">完成</button>
-            <button type="button" name="button" class="btn btn-outline-danger ml-auto" v-on:click="deleteGift">刪除</button>
-          </div>
-        </form>
+      <div class="form-group">
+        <label>照片連結</label>
+        <input type="text" class="form-control" v-model="imageUrl">
       </div>
-      <!-- <winner v-for="w in winners"></winner> -->
-    </div>
-  </div>
+    </td>
+    <td v-show="!editMode">
+      已抽出 {{ winnerCounts }}<br/>
+      剩下 {{ remaining }}<br/>
+    </td>
+    <td v-show="editMode">
+      <div class="form-group">
+        <label>禮物數量</label>
+        <input type="text" class="form-control" v-model.number="number">
+      </div>
+    </td>
+    <td>
+      <div class="btn btn-sm btn-warning m-2" v-for="(winner, index) in winners">
+        {{ winner.serial }} 號
+        <i class="fas fa-times" v-show="editMode" v-on:click="deleteWinner(index)"></i>
+      </div>
+    </td>
+    <td v-show="!editMode">
+      <div class="btn btn-sm" v-on:click="editMode=true">
+        <i class="fas fa-cog"></i>
+      </div>
+    </td>
+    <td v-show="editMode">
+      <div class="btn btn-outline-success m-2" v-on:click="editMode=false">
+        <i class="fas fa-check"></i>
+      </div>
+      <div class="btn btn-outline-danger m-2" v-on:click="deleteGift">
+        <i class="fas fa-trash-alt"></i>
+      </div>
+    </td>
+  </tr>
 </template>
 
 <script>
-import winner from './winner.vue'
 export default {
-  props: ['selectedGiftId', 'giftId', 'name', 'number', 'imageUrl'],
+  props: ['gid', 'gname', 'gnumber', 'gimageUrl', 'gwinners', 'indexAtGifts'],
   data: () => ({
+    imageUrl: null,
+    name: null,
+    number: null,
+    winners: [],
     editMode: false,
-    giftImageUrl: null,
-    giftName: null,
-    giftNumber: null
+    selectedGift: window.lottery.selectedGift
   }),
-  components: {
-    'winner': winner
+  mounted: function () {
+    this.name = this.gname,
+    this.number = this.gnumber,
+    this.imageUrl = this.gimageUrl
+    this.winners = this.gwinners
   },
   methods: {
     deleteGift: function () {
-      this.$emit('delete:gift', this.giftId)
+      this.$emit('delete:gift')
+    },
+    deleteWinner: function (index) {
+      this.$emit('delete:winner', index)
     },
     updateSelectedGiftId: function () {
-      let selected = this.giftId
-      if (this.isSelected) selected = null
-      this.$emit('update:selectedGiftId', selected)
-    }
+      let index = this.indexAtGifts
+      if (this.isSelected) index = null
+      this.selectedGift.index = index
+    },
   },
   computed: {
     isSelected: function () {
-      return (this.giftId === this.selectedGiftId)
+      return (this.indexAtGifts == this.selectedGift.index)
+    },
+    winnerCounts: function () {
+      return this.winners.length
+    },
+    remaining: function () {
+      return this.number - this.winnerCounts
     }
   },
-  mounted: function () {
-    this.giftName = this.name,
-    this.giftNumber = this.number,
-    this.giftImageUrl = this.imageUrl
-  },
   watch: {
-    giftName: function () {
-      this.$emit('update:name', this.giftName)
+    name: function () {
+      this.$emit('update:gname', this.name)
     },
-    giftNumber: function () {
-      this.$emit('update:number', this.giftNumber)
+    number: function () {
+      this.$emit('update:gnumber', this.number)
     },
-    giftImageUrl: function () {
-      this.$emit('update:imageUrl', this.giftImageUrl)
+    imageUrl: function () {
+      this.$emit('update:gimageUrl', this.imageUrl)
     }
   }
 }

@@ -1,5 +1,5 @@
 .bg-xmas{
-  background-image: url('/src/assets/images/snowflake.png'), linear-gradient(to bottom, rgb(25, 60, 60),rgb(30, 70, 60),rgb(46, 98, 63) 100%);
+  background-image: url('../images/snowflake.png'), linear-gradient(to bottom, rgb(25, 60, 60),rgb(30, 70, 60),rgb(46, 98, 63) 100%);
   background-repeat: repeat, no-repeat;
   background-position: center;
   background-size: 20vw 20vw, auto;
@@ -7,7 +7,7 @@
 .xmas-light{
   min-height: 100px;
   min-width: 100vw;
-  background-image: url('/src/assets/images/xmas_lights.png');
+  background-image: url('../images/xmas_lights.png');
   background-position: center;
   position: absolute;
   bottom: 0px;
@@ -16,7 +16,7 @@
   $size: 20vw;
   min-height: $size;
   min-width: $size;
-  background-image: url('/src/assets/images/xmas_tree.png');
+  background-image: url('../images/xmas_tree.png');
   background-size: $size $size;
   background-repeat: no-repeat;
   position: absolute;
@@ -27,7 +27,7 @@
   $size: 10vw;
   min-height: $size;
   min-width: $size;
-  background-image: url('/src/assets/images/xmas_wrench.png');
+  background-image: url('../images/xmas_wrench.png');
   background-size: $size $size;
   background-repeat: no-repeat;
   position: absolute;
@@ -38,7 +38,7 @@
   $size: 20vw;
   min-height: $size;
   min-width: $size;
-  background-image: url('/src/assets/images/xmas_santacart.png');
+  background-image: url('../images/xmas_santacart.png');
   background-size: $size $size;
   background-repeat: no-repeat;
   display: inline-block;
