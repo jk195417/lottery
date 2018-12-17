@@ -27,6 +27,17 @@
         </div>
       </div>
     </form>
+    <h1 class="text-center mt-5">紀錄</h1>
+    <div>
+      <div class="btn btn-block btn-secondary" v-on:click="importJson">
+        匯入
+      </div>
+      <input id="import-lottery" v-on:change="processJson" type="file" hidden>
+      <div class="btn btn-block btn-secondary mt-2" v-on:click="exportJson">
+        匯出
+      </div>
+      <a id="export-lottery" download="lottery.json" hidden></a>
+    </div>
   </div>
 </template>
 
@@ -34,7 +45,38 @@
 export default {
   data: () => ({
     config: window.lottery.config
-  })
+  }),
+  methods: {
+    importJson: function () {
+      document.getElementById('import-lottery').click()
+    },
+    exportJson: function () {
+      this.generateJson()
+      document.getElementById('export-lottery').click()
+    },
+    generateJson: function () {
+      let download = document.getElementById('export-lottery')
+      let encodedJson= encodeURIComponent(JSON.stringify(window.lottery))
+      let data = `data:text/json;charset=utf-8,${encodedJson}`
+      download.href = data
+    },
+    processJson: function () {
+      let file = document.getElementById('import-lottery').files[0]
+      if (!(file)) return false;
+      let reader = new FileReader()
+      reader.readAsText(file)
+      reader.onloadend = (e) => {
+        let import_data = JSON.parse(e.target.result)
+        console.log(import_data)
+        for (let key in import_data.config) {
+          window.lottery.config[key] = import_data.config[key]
+        }
+        for (let gift of import_data.gifts) {
+          window.lottery.gifts.push(gift)
+        }
+      }
+    }
+  }
 }
 </script>
 
