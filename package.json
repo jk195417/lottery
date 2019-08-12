@@ -11,7 +11,7 @@
     "animate.css": "^3.7",
     "bootstrap": "^4.1",
     "components": "^0.1.0",
-    "jquery": "^3.3",
+    "jquery": "^3.4",
     "popper.js": "^1.14",
     "vue": "^2.5",
     "vue-hot-reload-api": "^2.3.1"
