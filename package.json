@@ -7,21 +7,21 @@
   "author": "楊竑昕 <jk195417@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.4.1",
-    "animate.css": "^3.7",
-    "bootstrap": "^4.3",
+    "@fortawesome/fontawesome-free": "^5.11.2",
+    "animate.css": "^3.7.2",
+    "bootstrap": "^4.4.1",
     "components": "^0.1.0",
-    "jquery": "^3.4",
-    "popper.js": "^1.14",
-    "vue": "^2.5",
+    "jquery": "^3.4.1",
+    "popper.js": "^1.16.0",
+    "vue": "^2.6.10",
     "vue-hot-reload-api": "^2.3.1"
   },
   "devDependencies": {
     "@vue/component-compiler-utils": "^2.2.0",
     "cssnano": "^4.1.7",
     "gh-pages": "^2.0.1",
-    "sass": "^1.14.3",
-    "vue-template-compiler": "^2.5.17"
+    "sass": "^1.23.7",
+    "vue-template-compiler": "^2.6.10"
   },
   "scripts": {
     "start": "parcel src/index.html",

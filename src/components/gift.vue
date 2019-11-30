@@ -1,5 +1,5 @@
 <template lang="html">
-  <tr v-bind:class="{'table-active': isSelected}" v-on:click="updateSelectedGiftId">
+ <tr v-bind:class="{'table-active': isSelected}" v-on:click="updateSelectedGiftId">
     <td v-show="!editMode">
       {{ name }}<br>
       <img v-bind:src="imageUrl" onerror="this.src=''" style="object-fit: cover;">
@@ -25,7 +25,7 @@
       </div>
     </td>
     <td>
-      <div class="btn btn-sm btn-warning m-2" v-for="(winner, index) in winners">
+      <div class="btn btn-sm btn-warning m-2" v-for="(winner, index) in winners" @click="setWinnerHasTakenGift(index, giftIndex)" :class="{'hasTakenGift': winner.hasTakenGift}">
         {{ winner.serial }} 號
         <i class="fas fa-times" v-show="editMode" v-on:click="deleteWinner(index)"></i>
       </div>
@@ -47,16 +47,21 @@
 </template>
 
 <script>
+
 export default {
-  props: ['gid', 'gname', 'gnumber', 'gimageUrl', 'gwinners', 'indexAtGifts'],
-  data: () => ({
-    imageUrl: null,
-    name: null,
-    number: null,
-    winners: [],
-    editMode: false,
-    selectedGift: window.lottery.selectedGift
-  }),
+  props: [
+    'giftIndex', 'gid', 'gname', 'gnumber', 'gimageUrl', 'gwinners', 'indexAtGifts'
+  ],
+  data: () => (
+    {
+      imageUrl: null,
+      name: null,
+      number: null,
+      winners: [],
+      editMode: false,
+      selectedGift: window.lottery.selectedGift
+    }
+  ),
   mounted: function () {
     this.name = this.gname,
     this.number = this.gnumber,
@@ -69,6 +74,9 @@ export default {
     },
     deleteWinner: function (index) {
       this.$emit('delete:winner', index)
+    },
+    setWinnerHasTakenGift (winnerID, _giftIndex) {
+      this.$emit('setWinnerHasTakenGift', winnerID, _giftIndex)
     },
     updateSelectedGiftId: function () {
       let index = this.indexAtGifts
@@ -105,5 +113,17 @@ export default {
   .gift {
     width: 200px;
     text-align: left;
+  }
+
+  .hasTakenGift {
+    border-color: gray;
+    background-color: gray;
+    text-decoration-line: line-through;
+    text-decoration-thickness: 2px;
+  }
+
+  .hasTakenGift:hover {
+    border-color: #333333;
+    background-color: #cccccc;
   }
 </style>
