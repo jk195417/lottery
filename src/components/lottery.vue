@@ -31,6 +31,7 @@
           <th>#</th>
         </tr>
         <tr is="gift" v-for="(gift, index) in gifts"
+          v-bind:giftIndex="index"
           v-bind:index-at-gifts="index"
           v-bind:key="gift.id"
           v-bind:gid="gift.id"
@@ -39,7 +40,8 @@
           v-bind:gimage-url.sync="gift.imageUrl"
           v-bind:gwinners="gift.winners"
           v-on:delete:gift="deleteGift(index)"
-          v-on:delete:winner="deleteWinner(index, $event)"></tr>
+          v-on:delete:winner="deleteWinner(index, $event)"
+          v-on:setWinnerHasTakenGift="setWinnerHasTakenGift"></tr>
       </tbody>
     </table>
   </div>
@@ -48,14 +50,16 @@
 <script>
 import gift from './gift.vue'
 export default {
-  data: () => ({
-    config: window.lottery.config,
-    gifts: window.lottery.gifts,
-    selectedGift: window.lottery.selectedGift,
-    flasingWinnerSerial: null,
-    drawing: false,
-    noticing: false
-  }),
+  data: () => (
+    {
+      config: window.lottery.config,
+      gifts: window.lottery.gifts,
+      selectedGift: window.lottery.selectedGift,
+      flasingWinnerSerial: null,
+      drawing: false,
+      noticing: false
+    }
+  ),
   methods: {
     draw: function () {
       if (this.canDraw === true){
@@ -68,7 +72,8 @@ export default {
       const index = Math.floor(Math.random() * this.unselectedNumbers.length)
       const winner = {
         serial: this.unselectedNumbers[index],
-        time: new Date().toISOString()
+        time: new Date().toISOString(),
+        hasTakenGift: false
       }
       this.gifts[this.selectedGift.index].winners.push(winner)
       this.flasingWinnerSerial = winner.serial;
@@ -78,6 +83,17 @@ export default {
     },
     deleteWinner: function (index, windex) {
       this.gifts[index].winners.splice(windex, 1)
+    },
+    setWinnerHasTakenGift (winnerID, _giftIndex) {
+      try{
+        // console.log(_giftIndex)
+        // console.log(winnerID)
+        this.gifts[_giftIndex].winners[winnerID].hasTakenGift = !this.gifts[_giftIndex].winners[winnerID].hasTakenGift
+        // console.log(this.gifts[_giftIndex].winners[winnerID].hasTakenGift)
+        if (!this.gifts[_giftIndex].winners[winnerID].hasTakenGift) {
+          alert('已更改 ' + this.gifts[_giftIndex].winners[winnerID].serial + ' 號為「未領取」')
+        }
+      } catch { console.log('this number has been deleted') }
     }
   },
   computed: {
