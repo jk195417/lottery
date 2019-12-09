@@ -10,11 +10,9 @@ Github page: [http://jk195417.github.io/lottery][4a122d84]
 # Download
 $ git clone https://github.com/jk195417/lottery.git
 
-# Install parcel
-$ yarn global add parcel
-
 # Build dependencies and run
 $ cd lottery
+$ yarn
 $ yarn start
 ```
 

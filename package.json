@@ -20,6 +20,7 @@
     "@vue/component-compiler-utils": "^2.2.0",
     "cssnano": "^4.1.7",
     "gh-pages": "^2.0.1",
+    "parcel-bundler": "^1.12.4",
     "sass": "^1.23.7",
     "vue-template-compiler": "^2.6.10"
   },
