@@ -65,7 +65,7 @@ export default {
   ),
   mounted: function () {
     this.name = this.gname
-    this.number = this.gnumber,
+    this.number = this.gnumber
     this.imageUrl = this.gimageUrl
     this.winners = this.gwinners
   },

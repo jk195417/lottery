@@ -9,8 +9,7 @@ export default new Vuex.Store({
 
   state () {
     return {
-      Gifts: [
-      ],
+      Gifts: [],
       Config: {}
     }
   },
