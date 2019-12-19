@@ -10,9 +10,11 @@ import '@fortawesome/fontawesome-free/css/all.css'
 // import js main file here
 import './assets/javascripts/main.js'
 // vue app
+import store from './stores'
 import Vue from 'vue/dist/vue.esm.js'
 import App from './App.vue'
 const app = new Vue({
+  store,
   el: '#app',
   components: {
     'app': App

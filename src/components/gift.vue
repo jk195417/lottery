@@ -1,5 +1,5 @@
 <template lang="html">
- <tr v-bind:class="{'table-active': isSelected}" v-on:click="updateSelectedGiftId">
+ <tr v-bind:class="{'table-active': isSelected}" @click="updateSelectedGiftId">
     <td v-show="!editMode">
       {{ name }}<br>
       <img v-bind:src="imageUrl" onerror="this.src=''" style="object-fit: cover;">
@@ -25,21 +25,21 @@
       </div>
     </td>
     <td>
-      <div class="btn btn-sm btn-warning m-2" v-for="(winner, index) in winners" @click="setWinnerHasTakenGift(index, giftIndex)" :class="{'hasTakenGift': winner.hasTakenGift}">
+      <div class="btn btn-sm btn-warning m-2" v-for="(winner, index) in winners" @click.stop="setWinnerHasTakenGift(index, giftIndex)" :class="{'hasTakenGift': winner.hasTakenGift}">
         {{ winner.serial }} 號
-        <i class="fas fa-times" v-show="editMode" v-on:click="deleteWinner(index)"></i>
+        <i class="fas fa-times" v-show="editMode" @click.stop="deleteWinner(giftIndex, index)"></i>
       </div>
     </td>
     <td v-show="!editMode">
-      <div class="btn btn-sm" v-on:click="editMode=true">
+      <div class="btn btn-sm" @click="editMode=true">
         <i class="fas fa-cog"></i>
       </div>
     </td>
     <td v-show="editMode">
-      <div class="btn btn-outline-success m-2" v-on:click="editMode=false">
+      <div class="btn btn-outline-success m-2" @click="editMode=false">
         <i class="fas fa-check"></i>
       </div>
-      <div class="btn btn-outline-danger m-2" v-on:click="deleteGift">
+      <div class="btn btn-outline-danger m-2" @click="deleteGift">
         <i class="fas fa-trash-alt"></i>
       </div>
     </td>
@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex'
 
 export default {
   props: [
@@ -54,8 +55,8 @@ export default {
   ],
   data: () => (
     {
-      imageUrl: null,
       name: null,
+      imageUrl: null,
       number: null,
       winners: [],
       editMode: false,
@@ -63,20 +64,23 @@ export default {
     }
   ),
   mounted: function () {
-    this.name = this.gname,
+    this.name = this.gname
     this.number = this.gnumber,
     this.imageUrl = this.gimageUrl
     this.winners = this.gwinners
   },
   methods: {
+    ...mapMutations(['m_deleteGift', 'm_deleteWinnerFromGift', 'm_setWinnerHasTakenGift', 'm_updateGiftName', 'm_updateGiftNumber', 'm_updateGiftImageURL']),
     deleteGift: function () {
-      this.$emit('delete:gift')
+      this.m_deleteGift(this.giftIndex)
     },
-    deleteWinner: function (index) {
-      this.$emit('delete:winner', index)
+    deleteWinner: function (giftIndex, winnerIndex) {
+      this.m_deleteWinnerFromGift({ giftIndex, winnerIndex })
     },
-    setWinnerHasTakenGift (winnerID, _giftIndex) {
-      this.$emit('setWinnerHasTakenGift', winnerID, _giftIndex)
+    setWinnerHasTakenGift (winnerID, giftIndex) {
+      if (!this.editMode) {
+        this.m_setWinnerHasTakenGift({ winnerID, giftIndex })
+      }
     },
     updateSelectedGiftId: function () {
       let index = this.indexAtGifts
@@ -89,21 +93,40 @@ export default {
       return (this.indexAtGifts == this.selectedGift.index)
     },
     winnerCounts: function () {
-      return this.winners.length
+      return this.$store.state.Gifts[this.giftIndex].winners.length
     },
     remaining: function () {
       return this.number - this.winnerCounts
+    },
+    hasTakenCount: function () {
+      return this.winners.filter(
+        winner => {
+          return winner.hasTakenGift
+        }
+      )
+      .length
     }
   },
   watch: {
-    name: function () {
-      this.$emit('update:gname', this.name)
+    name (name) {
+      const giftIndex = this.giftIndex
+      this.m_updateGiftName({ giftIndex, name })
     },
-    number: function () {
-      this.$emit('update:gnumber', this.number)
+    number (number) {
+      const giftIndex = this.giftIndex
+      this.m_updateGiftNumber({ giftIndex, number })
     },
-    imageUrl: function () {
-      this.$emit('update:gimageUrl', this.imageUrl)
+    imageUrl (imageUrl) {
+      const giftIndex = this.giftIndex
+      this.m_updateGiftImageURL({ giftIndex, imageUrl })
+    },
+    hasTakenCount (hasTakenCount) {
+      const giftIndex = this.giftIndex
+      this.winners = this.$store.state.Gifts[giftIndex].winners
+    },
+    remaining () {
+      const giftIndex = this.giftIndex
+      this.winners = this.$store.state.Gifts[giftIndex].winners
     }
   }
 }

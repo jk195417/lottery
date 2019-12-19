@@ -42,11 +42,13 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex'
 export default {
   data: () => ({
     config: window.lottery.config
   }),
   methods: {
+    ...mapMutations(['m_addGift']),
     importJson: function () {
       document.getElementById('import-lottery').click()
     },
@@ -55,8 +57,10 @@ export default {
       document.getElementById('export-lottery').click()
     },
     generateJson: function () {
+      let lottoeryData = window.lottery
+      lottoeryData.gifts = this.$store.state.Gifts
       let download = document.getElementById('export-lottery')
-      let encodedJson= encodeURIComponent(JSON.stringify(window.lottery))
+      let encodedJson= encodeURIComponent(JSON.stringify(lottoeryData))
       let data = `data:text/json;charset=utf-8,${encodedJson}`
       download.href = data
     },
@@ -67,12 +71,11 @@ export default {
       reader.readAsText(file)
       reader.onloadend = (e) => {
         let import_data = JSON.parse(e.target.result)
-        console.log(import_data)
         for (let key in import_data.config) {
           window.lottery.config[key] = import_data.config[key]
         }
         for (let gift of import_data.gifts) {
-          window.lottery.gifts.push(gift)
+          this.m_addGift(gift)
         }
       }
     }

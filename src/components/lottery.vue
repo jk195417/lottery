@@ -1,16 +1,18 @@
 <template lang="html">
   <div class="container">
     <!-- alert -->
-    <div
-      class="alert alert-info text-center mt-5"
-      v-bind:class="{ 'animated tada': noticing }"
-      v-show="flasingWinnerSerial">
-      抽中了
-      <strong class="display-2 text-warning">{{ flasingWinnerSerial }}</strong>
-      號
-      <button class="close" v-on:click="flasingWinnerSerial=null">
-        <i class="far fa-times-circle"></i>
-      </button>
+    <div class="alert-frame mt-5">
+      <div
+        class="alert alert-info text-center"
+        v-bind:class="{ 'animated tada': noticing }"
+        v-show="flasingWinnerSerial">
+        抽中了
+        <strong class="display-2 text-warning">{{ flasingWinnerSerial }}</strong>
+        號
+        <button class="close" v-on:click="flasingWinnerSerial=null">
+          <i class="far fa-times-circle"></i>
+        </button>
+      </div>
     </div>
 
     <!-- drawing btn -->
@@ -30,30 +32,29 @@
           <th>中獎號碼</th>
           <th>#</th>
         </tr>
-        <tr is="gift" v-for="(gift, index) in gifts"
-          v-bind:giftIndex="index"
-          v-bind:index-at-gifts="index"
-          v-bind:key="gift.id"
-          v-bind:gid="gift.id"
-          v-bind:gname.sync="gift.name"
-          v-bind:gnumber.sync="gift.number"
-          v-bind:gimage-url.sync="gift.imageUrl"
-          v-bind:gwinners="gift.winners"
-          v-on:delete:gift="deleteGift(index)"
-          v-on:delete:winner="deleteWinner(index, $event)"
-          v-on:setWinnerHasTakenGift="setWinnerHasTakenGift"></tr>
+        <GiftList v-for="(gift, index) in $store.state.Gifts"
+          :giftIndex="index"
+          :index-at-gifts="index"
+          :key="gift.id"
+          :gid="gift.id"
+          :gname="gift.name"
+          :gnumber="gift.number"
+          :gimage-url="gift.imageUrl"
+          :gwinners="gift.winners"
+        >
       </tbody>
     </table>
   </div>
 </template>
 
 <script>
-import gift from './gift.vue'
+import GiftList from './gift.vue'
+import { mapState, mapMutations } from 'vuex'
 export default {
+  components: { GiftList },
   data: () => (
     {
       config: window.lottery.config,
-      gifts: window.lottery.gifts,
       selectedGift: window.lottery.selectedGift,
       flasingWinnerSerial: null,
       drawing: false,
@@ -61,6 +62,7 @@ export default {
     }
   ),
   methods: {
+    ...mapMutations(['m_addWinnerToGift']),
     draw: function () {
       if (this.canDraw === true){
         this.drawing = true
@@ -70,30 +72,14 @@ export default {
     },
     randomWinner: function () {
       const index = Math.floor(Math.random() * this.unselectedNumbers.length)
-      const winner = {
+      let winner = {
         serial: this.unselectedNumbers[index],
         time: new Date().toISOString(),
         hasTakenGift: false
       }
-      this.gifts[this.selectedGift.index].winners.push(winner)
-      this.flasingWinnerSerial = winner.serial;
-    },
-    deleteGift: function (index) {
-      this.gifts.splice(index, 1)
-    },
-    deleteWinner: function (index, windex) {
-      this.gifts[index].winners.splice(windex, 1)
-    },
-    setWinnerHasTakenGift (winnerID, _giftIndex) {
-      try{
-        // console.log(_giftIndex)
-        // console.log(winnerID)
-        this.gifts[_giftIndex].winners[winnerID].hasTakenGift = !this.gifts[_giftIndex].winners[winnerID].hasTakenGift
-        // console.log(this.gifts[_giftIndex].winners[winnerID].hasTakenGift)
-        if (!this.gifts[_giftIndex].winners[winnerID].hasTakenGift) {
-          alert('已更改 ' + this.gifts[_giftIndex].winners[winnerID].serial + ' 號為「未領取」')
-        }
-      } catch { console.log('this number has been deleted') }
+      let selectedGiftID = this.selectedGift.index
+      this.m_addWinnerToGift({ selectedGiftID, winner })
+      this.flasingWinnerSerial = winner.serial
     }
   },
   computed: {
@@ -102,25 +88,33 @@ export default {
     },
     canDraw: function () {
       if (this.unselectedNumbers.length <= 0) return '所有號碼都被抽完了!'
-      const selectedGift = this.gifts[this.selectedGift.index]
+      const selectedGift = this.$store.state.Gifts[this.selectedGift.index]
       if (selectedGift == null) return '請先選擇禮物'
       if (selectedGift.number <= selectedGift.winners.length) return '這個禮物已經被抽完了'
       return true
     },
     selectedNumbers: function () {
-      return this.gifts.flatMap((gift) => {
-        return gift.winners.map((winner) => {
-          return winner.serial
-        })
-      })
+      let gifts = this.$store.state.Gifts
+      return gifts.flatMap(
+        gift => {
+          return gift.winners.map(
+            winner => {
+              return winner.serial
+            }
+          )
+        }
+      )
     },
     unselectedNumbers: function () {
       return this.range.filter(n => this.selectedNumbers.indexOf(n) === -1)
     },
     giftCounts: function () {
-      return this.gifts.reduce((total, gift) => {
-        return total + gift.number
-      }, 0)
+      let gifts = this.$store.state.Gifts
+      return gifts.reduce(
+        (total, gift) => {
+          return total + gift.number
+        }
+      , 0)
     },
     winnerCounts: function () {
       return this.selectedNumbers.length
@@ -141,9 +135,17 @@ export default {
         this.noticing = false
       }, this.config.msOfNoticing)
     }
-  },
-  components: {
-    'gift': gift,
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  .alert-frame {
+    min-height: 10rem;
+    margin-bottom: 1rem;
+  }
+
+  .alert {
+    margin-bottom: 0;
+  }
+</style>
