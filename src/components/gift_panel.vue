@@ -26,15 +26,16 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 export default {
   data: () => ({
     incrementingId: 0,
     name: '禮物',
     number: 1,
-    imageUrl: null,
-    gifts: window.lottery.gifts
+    imageUrl: null
   }),
   methods: {
+    ...mapMutations(['m_addGift']),
     newGift: function () {
       this.incrementingId += 1
       let gift = {
@@ -44,7 +45,7 @@ export default {
         imageUrl: this.imageUrl,
         winners: []
       }
-      this.gifts.push(gift)
+      this.m_addGift(gift)
       this.cleanForm()
     },
     cleanForm: function () {
