@@ -13,6 +13,7 @@ import './assets/javascripts/main.js'
 import store from './stores'
 import Vue from 'vue/dist/vue.esm.js'
 import App from './App.vue'
+
 const app = new Vue({
   store,
   el: '#app',
@@ -20,3 +21,5 @@ const app = new Vue({
     'app': App
   }
 })
+
+console.info(app)

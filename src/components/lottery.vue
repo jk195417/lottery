@@ -49,7 +49,7 @@
 
 <script>
 import GiftList from './gift.vue'
-import { mapState, mapMutations } from 'vuex'
+import { mapMutations } from 'vuex'
 export default {
   components: { GiftList },
   data: () => (
@@ -64,7 +64,7 @@ export default {
   methods: {
     ...mapMutations(['m_addWinnerToGift']),
     draw: function () {
-      if (this.canDraw === true){
+      if (this.canDraw === true) {
         this.drawing = true
       } else {
         return alert(this.canDraw)
@@ -84,7 +84,7 @@ export default {
   },
   computed: {
     range: function () {
-      return Array.from({length: this.config.max - this.config.min + 1}, (v, k) => k + this.config.min)
+      return Array.from({ length: this.config.max - this.config.min + 1 }, (v, k) => k + this.config.min)
     },
     canDraw: function () {
       if (this.unselectedNumbers.length <= 0) return '所有號碼都被抽完了!'
@@ -114,14 +114,14 @@ export default {
         (total, gift) => {
           return total + gift.number
         }
-      , 0)
+        , 0)
     },
     winnerCounts: function () {
       return this.selectedNumbers.length
     }
   },
   watch: {
-    drawing: function() {
+    drawing: function () {
       if (!this.drawing) return false
       setTimeout(() => {
         this.noticing = true
@@ -129,7 +129,7 @@ export default {
         this.randomWinner()
       }, this.config.msOfDrawing)
     },
-    noticing: function() {
+    noticing: function () {
       if (!this.noticing) return false
       setTimeout(() => {
         this.noticing = false

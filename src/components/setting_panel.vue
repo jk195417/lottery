@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapMutations } from 'vuex'
 export default {
   data: () => ({
     config: window.lottery.config
@@ -60,21 +60,21 @@ export default {
       let lottoeryData = window.lottery
       lottoeryData.gifts = this.$store.state.Gifts
       let download = document.getElementById('export-lottery')
-      let encodedJson= encodeURIComponent(JSON.stringify(lottoeryData))
+      let encodedJson = encodeURIComponent(JSON.stringify(lottoeryData))
       let data = `data:text/json;charset=utf-8,${encodedJson}`
       download.href = data
     },
     processJson: function () {
       let file = document.getElementById('import-lottery').files[0]
-      if (!(file)) return false;
+      if (!(file)) return false
       let reader = new FileReader()
       reader.readAsText(file)
       reader.onloadend = (e) => {
-        let import_data = JSON.parse(e.target.result)
-        for (let key in import_data.config) {
-          window.lottery.config[key] = import_data.config[key]
+        let importData = JSON.parse(e.target.result)
+        for (let key in importData.config) {
+          window.lottery.config[key] = importData.config[key]
         }
-        for (let gift of import_data.gifts) {
+        for (let gift of importData.gifts) {
           this.m_addGift(gift)
         }
       }

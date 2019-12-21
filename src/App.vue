@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="d-flex" v-cloak="v-cloak">
+  <div class="d-flex" v-cloak>
     <div class="sidebar bg-dark" id="setting-panel" v-show="showSettingPanel">
       <setting-panel></setting-panel>
     </div>

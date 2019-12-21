@@ -13,9 +13,7 @@ function sortWinnerNumber (state, giftIndex) {
   state.Gifts[giftIndex].winners = hasNotTaken.concat(hasTaken)
 }
 
-
 export default {
-  
 
   m_addGift (state, gift) {
     state.Gifts.push(gift)
@@ -48,14 +46,13 @@ export default {
       }
 
       sortWinnerNumber(state, giftIndex)
-
     } catch (error) {
       console.log(error)
       window.alert('Error: this number has been deleted')
     }
   },
 
-  m_sortWinnerNumber () {
+  m_sortWinnerNumber (state, giftIndex) {
     sortWinnerNumber(state, giftIndex)
   },
 

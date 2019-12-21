@@ -25,7 +25,7 @@
       </div>
     </td>
     <td>
-      <div class="btn btn-sm btn-warning m-2" v-for="(winner, index) in winners" @click.stop="setWinnerHasTakenGift(index, giftIndex)" :class="{'hasTakenGift': winner.hasTakenGift}">
+      <div class="btn btn-sm btn-warning m-2" v-for="(winner, index) in winners" :key="index" @click.stop="setWinnerHasTakenGift(index, giftIndex)" :class="{'hasTakenGift': winner.hasTakenGift}">
         {{ winner.serial }} 號
         <i class="fas fa-times" v-show="editMode" @click.stop="deleteWinner(giftIndex, index)"></i>
       </div>
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapMutations } from 'vuex'
 
 export default {
   props: [
@@ -86,11 +86,11 @@ export default {
       let index = this.indexAtGifts
       if (this.isSelected) index = null
       this.selectedGift.index = index
-    },
+    }
   },
   computed: {
     isSelected: function () {
-      return (this.indexAtGifts == this.selectedGift.index)
+      return (this.indexAtGifts === this.selectedGift.index)
     },
     winnerCounts: function () {
       return this.$store.state.Gifts[this.giftIndex].winners.length
@@ -104,7 +104,7 @@ export default {
           return winner.hasTakenGift
         }
       )
-      .length
+        .length
     }
   },
   watch: {
@@ -142,7 +142,6 @@ export default {
     border-color: gray;
     background-color: gray;
     text-decoration-line: line-through;
-    text-decoration-thickness: 2px;
   }
 
   .hasTakenGift:hover {
