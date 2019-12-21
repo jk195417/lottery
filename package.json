@@ -2,10 +2,14 @@
   "name": "lottery",
   "version": "1.0.0",
   "description": "抽獎",
-  "main": "src/index.js",
-  "repository": "https://github.com/jk195417/lottery.git",
   "author": "楊竑昕 <jk195417@gmail.com>",
-  "license": "MIT",
+  "scripts": {
+    "lint": "vue-cli-service lint",
+    "deploy": "gh-pages -d dist",
+    "predeploy": "rm -rf dist && parcel build src/index.html --public-url ./",
+    "start": "parcel src/index.html"
+  },
+  "main": "src/index.js",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.11.2",
     "animate.css": "^3.7.2",
@@ -18,17 +22,19 @@
     "vuex": "^3.1.2"
   },
   "devDependencies": {
+    "@vue/cli-plugin-eslint": "^4.1.1",
     "@vue/cli-service": "^4.1.1",
     "@vue/component-compiler-utils": "^2.2.0",
+    "@vue/eslint-config-standard": "^4.0.0",
+    "babel-eslint": "^10.0.3",
     "cssnano": "^4.1.7",
+    "eslint": "^5.16.0",
+    "eslint-plugin-vue": "^5.0.0",
     "gh-pages": "^2.0.1",
     "parcel-bundler": "^1.12.4",
     "sass": "^1.23.7",
     "vue-template-compiler": "^2.6.10"
   },
-  "scripts": {
-    "start": "parcel src/index.html",
-    "predeploy": "rm -rf dist && parcel build src/index.html --public-url ./",
-    "deploy": "gh-pages -d dist"
-  }
+  "license": "MIT",
+  "repository": "https://github.com/jk195417/lottery.git"
 }
