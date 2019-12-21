@@ -18,6 +18,7 @@
     "vuex": "^3.1.2"
   },
   "devDependencies": {
+    "@vue/cli-service": "^4.1.1",
     "@vue/component-compiler-utils": "^2.2.0",
     "cssnano": "^4.1.7",
     "gh-pages": "^2.0.1",
