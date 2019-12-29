@@ -6,11 +6,11 @@ export default class Winner {
     this.appearedAt = null
   }
 
-  appear (boolean) {
-    if (boolean) {
-      this.appearedAt = new Date().toISOString()
-    } else {
+  appear () {
+    if (this.appearedAt) {
       this.appearedAt = null
+    } else {
+      this.appearedAt = new Date().toISOString()
     }
   }
 }

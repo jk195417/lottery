@@ -1,18 +1,73 @@
 <template lang="html">
-  <div class="d-flex" v-cloak>
-    <div class="sidebar bg-dark" id="setting-panel" v-show="showSettingPanel">
-      <setting-panel></setting-panel>
+  <div
+    v-cloak
+    class="d-flex"
+  >
+    <div
+      v-show="showSettingPanel"
+      id="setting-panel"
+      class="sidebar bg-dark"
+    >
+      <setting-panel />
     </div>
     <div class="main w-100">
-      <button type="button" class="btn btn-outline-dark m-2 float-left" v-on:click="toggleSettingPanel"><i class="fas fa-cogs" style="font-size: 2rem;"></i></button>
-      <button type="button" class="btn btn-outline-dark m-2 float-right" v-on:click="toggleGiftPanel"><i class="fas fa-gift" style="font-size: 2rem;"></i></button>
-      <lottery></lottery>
+      <button
+        type="button"
+        class="btn btn-outline-dark m-2 float-left"
+        @click="toggleSettingPanel"
+      >
+        <i
+          class="fas fa-cogs"
+          style="font-size: 2rem;"
+        />
+      </button>
+      <button
+        type="button"
+        class="btn btn-outline-dark m-2 float-right"
+        @click="toggleGiftPanel"
+      >
+        <i
+          class="fas fa-gift"
+          style="font-size: 2rem;"
+        />
+      </button>
+      <lottery />
     </div>
-    <div class="sidebar bg-dark" id="gift-panel" v-show="showGiftPanel">
-      <gift-panel></gift-panel>
+    <div
+      v-show="showGiftPanel"
+      id="gift-panel"
+      class="sidebar bg-dark"
+    >
+      <gift-panel />
     </div>
   </div>
 </template>
+
+<script>
+import lottery from './components/lottery'
+import settingPanel from './components/setting-panel'
+import giftPanel from './components/gift-panel'
+
+export default {
+  components: {
+    'setting-panel': settingPanel,
+    'gift-panel': giftPanel,
+    lottery: lottery
+  },
+  data: () => ({
+    showSettingPanel: true,
+    showGiftPanel: true
+  }),
+  methods: {
+    toggleSettingPanel: function () {
+      this.showSettingPanel = !this.showSettingPanel
+    },
+    toggleGiftPanel: function () {
+      this.showGiftPanel = !this.showGiftPanel
+    }
+  }
+}
+</script>
 
 <style lang="scss">
 $sidebar-width: 280px;
@@ -32,43 +87,3 @@ $main-width: $sidebar-width + 120px;
   min-width: $main-width;
 }
 </style>
-
-<script>
-import lottery from './components/lottery.vue'
-import settingPanel from './components/setting_panel.vue'
-import giftPanel from './components/gift_panel.vue'
-
-// global references, for managing state
-window.lottery = {
-  gifts: [],
-  config: {
-    min: 1,
-    max: 100,
-    msOfDrawing: 800, // 800ms
-    msOfNoticing: 1000 // 1000ms
-  },
-  selectedGift: {
-    index: null
-  }
-}
-
-export default {
-  components: {
-    'setting-panel': settingPanel,
-    'gift-panel': giftPanel,
-    'lottery': lottery
-  },
-  data: () => ({
-    showSettingPanel: true,
-    showGiftPanel: true
-  }),
-  methods: {
-    toggleSettingPanel: function () {
-      this.showSettingPanel = !this.showSettingPanel
-    },
-    toggleGiftPanel: function () {
-      this.showGiftPanel = !this.showGiftPanel
-    }
-  }
-}
-</script>

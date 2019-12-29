@@ -1,5 +1,5 @@
 export default class Gift {
-  static generatedId = 0
+  static generatedId = 0;
 
   static autoIncrementId () {
     this.generatedId += 1

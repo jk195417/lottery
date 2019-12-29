@@ -10,16 +10,15 @@ import '@fortawesome/fontawesome-free/css/all.css'
 // import js main file here
 import './assets/javascripts/main.js'
 // vue app
+import Vue from 'vue/dist/vue.esm'
+import app from './app'
 import store from './stores'
-import Vue from 'vue/dist/vue.esm.js'
-import App from './App.vue'
 
-const app = new Vue({
+// eslint-disable-next-line no-unused-vars
+const vueInstance = new Vue({
   store,
-  el: '#app',
+  el: '#vue-instance',
   components: {
-    'app': App
+    app
   }
 })
-
-console.info(app)
