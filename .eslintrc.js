@@ -12,4 +12,4 @@ module.exports = {
     parser: 'babel-eslint'
   },
   plugins: ['vue']
-};
+}
