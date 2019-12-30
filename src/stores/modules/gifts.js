@@ -9,10 +9,6 @@ export default {
       state.gifts = gifts
     },
     add: (state, { gift }) => state.gifts.push(gift),
-    update: (state, { id, gift }) => {
-      const index = state.gifts.findIndex(g => g.id === id)
-      state.gifts[index] = { ...state.gifts[index], ...gift }
-    },
     updateName: (state, { id, name }) => {
       state.gifts.find(g => g.id === id).name = name
     },
@@ -33,6 +29,7 @@ export default {
     find: state => id => state.gifts.find(g => g.id === id),
     findIndex: state => id => state.gifts.findIndex(g => g.id === id),
     selected: state => state.gifts.find(g => g.id === state.selectedId),
-    sum: state => state.gifts.reduce((total, gift) => total + gift.number, 0)
+    sum: state => state.gifts.reduce((total, gift) => total + gift.number, 0),
+    ids: state => state.gifts.map(gift => gift.id)
   }
 }

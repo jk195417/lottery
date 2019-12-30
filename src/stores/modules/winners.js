@@ -12,7 +12,11 @@ export default {
     },
     appear: (state, { serial }) => {
       const winner = state.winners.find(g => g.serial === serial)
-      winner.appear()
+      if (winner.appearedAt) {
+        winner.appearedAt = null
+      } else {
+        winner.appearedAt = new Date().toISOString()
+      }
     }
   },
   actions: {},
