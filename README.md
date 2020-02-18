@@ -2,7 +2,7 @@
 
 ## Usage
 
-Github page: [http://jk195417.github.io/lottery][4a122d84]
+Github page: [https://yang-hong-xin.com/lottery][4a122d84]
 
 ### If you want to build youself:
 
