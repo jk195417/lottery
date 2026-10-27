@@ -11,7 +11,7 @@ import '@fortawesome/fontawesome-free/css/all.css'
 import './assets/javascripts/main.js'
 // vue app
 import Vue from 'vue/dist/vue.esm'
-import app from './app'
+import app from './App'
 import store from './stores'
 
 // eslint-disable-next-line no-unused-vars

@@ -7,7 +7,8 @@
     "lint": "vue-cli-service lint",
     "deploy": "gh-pages -d dist",
     "predeploy": "rm -rf dist && parcel build src/index.html --public-url ./",
-    "start": "parcel src/index.html"
+    "start": "parcel src/index.html",
+    "build": "parcel build src/index.html --public-url ./"
   },
   "main": "src/index.js",
   "dependencies": {
