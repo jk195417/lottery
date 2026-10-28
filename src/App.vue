@@ -105,8 +105,10 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped>
-.title {
+.title i {
   color: var(--lt-gold);
+}
+.title {
   letter-spacing: 0.05em;
 }
 

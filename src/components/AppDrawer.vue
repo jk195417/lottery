@@ -17,7 +17,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
   <div v-show="open" class="drawer-backdrop" @click="open = false"></div>
   <aside v-bind="$attrs" class="drawer" :class="[`drawer-${side}`, { open }]" :aria-hidden="!open" :aria-label="title" :inert="!open">
     <header class="d-flex align-items-center justify-content-between mb-4">
-      <h2 class="h4 mb-0 text-gold">{{ title }}</h2>
+      <h2 class="h4 mb-0">{{ title }}</h2>
       <button type="button" class="btn-close" aria-label="關閉" @click="open = false"></button>
     </header>
     <slot />

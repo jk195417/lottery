@@ -89,6 +89,6 @@ function save(id: number) {
 <style scoped>
 .gift-item {
   padding: 0.6rem 0;
-  border-top: 1px solid rgb(245 196 81 / 15%);
+  border-top: 1px solid var(--lt-divider);
 }
 </style>

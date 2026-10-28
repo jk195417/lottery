@@ -30,10 +30,10 @@ function copyText() {
 
 <template>
   <div class="mb-3">
-    <button type="button" class="btn btn-outline-warning btn-sm me-2" :disabled="!store.gifts.length" @click="copyLink">
+    <button type="button" class="btn btn-outline-light btn-sm me-2" :disabled="!store.gifts.length" @click="copyLink">
       <i class="fas fa-link" aria-hidden="true"></i> 複製分享連結
     </button>
-    <button type="button" class="btn btn-outline-warning btn-sm" :disabled="!store.gifts.length" @click="copyText">
+    <button type="button" class="btn btn-outline-light btn-sm" :disabled="!store.gifts.length" @click="copyText">
       <i class="far fa-copy" aria-hidden="true"></i> 複製結果文字
     </button>
     <p v-if="message" class="small lt-muted mt-2 mb-0" role="status">{{ message }}</p>

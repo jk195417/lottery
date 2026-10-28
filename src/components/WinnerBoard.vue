@@ -14,9 +14,9 @@ const total = computed(() => props.save.gifts.reduce((sum, g) => sum + g.number,
 <template>
   <section class="lt-card p-3 p-md-4 h-100" aria-label="中獎名單">
     <header class="d-flex align-items-end justify-content-between flex-wrap gap-2 mb-3">
-      <h2 class="h3 mb-0 text-gold">中獎名單</h2>
+      <h2 class="h3 mb-0">中獎名單</h2>
       <p class="mb-0 lt-muted">
-        <strong class="fs-4 text-gold">{{ save.winners.length }}</strong> / {{ total }} 份已抽出
+        <strong class="fs-4">{{ save.winners.length }}</strong> / {{ total }} 份已抽出
       </p>
     </header>
     <slot name="actions" />
@@ -54,7 +54,7 @@ const total = computed(() => props.save.gifts.reduce((sum, g) => sum + g.number,
 <style scoped>
 .gift-section {
   padding: 0.75rem 0;
-  border-top: 1px solid rgb(245 196 81 / 15%);
+  border-top: 1px solid var(--lt-divider);
 }
 .gift-image {
   width: 40px;
@@ -66,14 +66,15 @@ const total = computed(() => props.save.gifts.reduce((sum, g) => sum + g.number,
   padding: 0.2rem 0.75rem;
   font-size: 1.1rem;
   font-weight: 700;
-  color: #2a1406;
-  background: var(--lt-gold);
-  border: 0;
+  color: var(--lt-text);
+  background: rgb(255 255 255 / 10%);
+  border: 1px solid rgb(255 255 255 / 22%);
   border-radius: 0.5rem;
 }
 .ticket.collected {
   color: var(--lt-muted);
   text-decoration: line-through;
-  background: rgb(255 255 255 / 12%);
+  background: transparent;
+  border-color: rgb(255 255 255 / 10%);
 }
 </style>

@@ -150,12 +150,12 @@ onBeforeUnmount(() => {
   color: var(--lt-muted);
 }
 .gift-chip.active {
-  color: #2a1406;
-  background: var(--lt-gold);
-  border-color: var(--lt-gold-strong);
+  background: rgb(184 50 42 / 35%);
+  border-color: var(--lt-red-strong);
+  box-shadow: inset 0 0 0 1px var(--lt-red-strong);
 }
 .gift-chip.active .left {
-  color: rgb(42 20 6 / 75%);
+  color: var(--lt-text);
 }
 .gift-chip.empty:not(.active) {
   opacity: 0.5;
@@ -167,9 +167,9 @@ onBeforeUnmount(() => {
   font-size: clamp(6rem, min(22vw, 32vh), 22rem);
   font-weight: 700;
   line-height: 1;
-  color: var(--lt-gold-strong);
+  color: var(--lt-text);
   font-variant-numeric: tabular-nums;
-  text-shadow: 0 0 40px rgb(245 196 81 / 45%);
+  text-shadow: 0 0 48px rgb(255 240 220 / 22%);
 }
 .number.rolling {
   opacity: 0.85;
@@ -189,11 +189,11 @@ onBeforeUnmount(() => {
   padding: 0.75rem 2.5rem 0.75rem 1rem;
   font-size: 2rem;
   font-weight: 700;
-  color: #2a1406;
-  background: linear-gradient(180deg, var(--lt-gold-strong), var(--lt-gold));
+  color: var(--lt-text);
+  background: linear-gradient(180deg, var(--lt-red-strong), var(--lt-red));
   border: 0;
   border-radius: 999px;
-  box-shadow: 0 8px 30px rgb(245 196 81 / 35%);
+  box-shadow: 0 8px 30px rgb(184 50 42 / 35%);
 }
 .draw-button:disabled {
   opacity: 0.8;
