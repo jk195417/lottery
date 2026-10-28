@@ -4,7 +4,42 @@
   font-display: swap;
 }
 
+:root {
+  --lt-bg-top: #3a0d18;
+  --lt-bg-bottom: #0b1024;
+  --lt-gold: #f5c451;
+  --lt-gold-strong: #ffd76a;
+  --lt-red: #e2463b;
+  --lt-text: #fff7e6;
+  --lt-muted: rgb(255 247 230 / 65%);
+  --lt-card: rgb(255 255 255 / 6%);
+  --lt-card-border: rgb(245 196 81 / 25%);
+  --bs-body-font-family: 'GenJyuuGothic', system-ui, sans-serif;
+}
+
+html {
+  background: var(--lt-bg-bottom);
+}
+
 body {
   min-height: 100vh;
-  font-family: 'GenJyuuGothic', system-ui, sans-serif;
+  color: var(--lt-text);
+  background:
+    radial-gradient(ellipse at 50% -10%, rgb(245 196 81 / 18%), transparent 55%) no-repeat,
+    linear-gradient(180deg, var(--lt-bg-top), var(--lt-bg-bottom)) no-repeat var(--lt-bg-bottom);
+}
+
+.lt-card {
+  background: var(--lt-card);
+  border: 1px solid var(--lt-card-border);
+  border-radius: 1rem;
+  backdrop-filter: blur(4px);
+}
+
+.lt-muted {
+  color: var(--lt-muted);
+}
+
+.text-gold {
+  color: var(--lt-gold);
 }

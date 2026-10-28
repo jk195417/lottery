@@ -28,7 +28,7 @@ describe('share links', () => {
     expect(wrapper.text()).toContain('5 號')
     expect(useLotteryStore().gifts).toEqual([])
 
-    await wrapper.get('button.btn-primary').trigger('click')
+    await wrapper.findAll('button').find((b) => b.text() === '回到我的抽獎')!.trigger('click')
     expect(wrapper.text()).not.toContain('別人分享的抽獎結果')
     expect(location.hash).toBe('')
   })

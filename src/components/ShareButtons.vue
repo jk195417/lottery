@@ -29,14 +29,14 @@ function copyText() {
 </script>
 
 <template>
-  <div class="text-center mb-3">
-    <button type="button" class="btn btn-outline-primary btn-sm me-2" :disabled="!store.gifts.length" @click="copyLink">
+  <div class="mb-3">
+    <button type="button" class="btn btn-outline-warning btn-sm me-2" :disabled="!store.gifts.length" @click="copyLink">
       <i class="fas fa-link" aria-hidden="true"></i> 複製分享連結
     </button>
-    <button type="button" class="btn btn-outline-primary btn-sm" :disabled="!store.gifts.length" @click="copyText">
+    <button type="button" class="btn btn-outline-warning btn-sm" :disabled="!store.gifts.length" @click="copyText">
       <i class="far fa-copy" aria-hidden="true"></i> 複製結果文字
     </button>
-    <p v-if="message" class="small text-muted mt-2 mb-0" role="status">{{ message }}</p>
+    <p v-if="message" class="small lt-muted mt-2 mb-0" role="status">{{ message }}</p>
     <textarea
       v-if="manualCopy"
       class="form-control form-control-sm mt-2"
