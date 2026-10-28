@@ -19,12 +19,13 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.3.1",
-    "animate.css": "^4.1.1",
     "bootstrap": "^5.3.8",
+    "canvas-confetti": "^1.9.4",
     "pinia": "^4.0.3",
     "vue": "^3.5.43"
   },
   "devDependencies": {
+    "@types/canvas-confetti": "^1.9.0",
     "@vitejs/plugin-vue": "^6.0.10",
     "@vue/test-utils": "^2.5.1",
     "@vue/tsconfig": "^0.9.1",

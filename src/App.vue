@@ -3,14 +3,19 @@ import { onBeforeUnmount, onMounted, ref } from 'vue'
 import type { SaveData } from './lottery'
 import { SHARE_PREFIX, decodeShare } from './share'
 import { useLotteryStore } from './store'
-import LotteryDraw from './components/LotteryDraw.vue'
+import AppDrawer from './components/AppDrawer.vue'
+import DrawStage from './components/DrawStage.vue'
+import GiftManager from './components/GiftManager.vue'
 import SettingPanel from './components/SettingPanel.vue'
-import GiftPanel from './components/GiftPanel.vue'
+import ShareButtons from './components/ShareButtons.vue'
 import SharedResults from './components/SharedResults.vue'
+import WinnerBoard from './components/WinnerBoard.vue'
 
 const store = useLotteryStore()
-const showSettingPanel = ref(true)
-const showGiftPanel = ref(true)
+// Start with the gift drawer open when there is nothing to draw yet
+const showGifts = ref(store.gifts.length === 0)
+const showSettings = ref(false)
+const fullscreen = ref(false)
 const shared = ref<SaveData | null>(null)
 const shareError = ref<string | null>(null)
 
@@ -41,60 +46,76 @@ function loadShared() {
   closeShared()
 }
 
+function toggleFullscreen() {
+  if (document.fullscreenElement) document.exitFullscreen()
+  else document.documentElement.requestFullscreen?.()
+}
+const onFullscreenChange = () => (fullscreen.value = !!document.fullscreenElement)
+
 onMounted(() => {
   readHash()
   window.addEventListener('hashchange', readHash)
+  document.addEventListener('fullscreenchange', onFullscreenChange)
 })
-onBeforeUnmount(() => window.removeEventListener('hashchange', readHash))
+onBeforeUnmount(() => {
+  window.removeEventListener('hashchange', readHash)
+  document.removeEventListener('fullscreenchange', onFullscreenChange)
+})
 </script>
 
 <template>
+  <div class="app">
   <SharedResults v-if="shared" :save="shared" @close="closeShared" @load="loadShared" />
-  <div v-else class="d-lg-flex">
-    <aside v-show="showSettingPanel" id="setting-panel" class="sidebar bg-dark" aria-label="設定面板">
-      <SettingPanel />
-    </aside>
-    <main class="main w-100">
-      <div class="d-flex justify-content-between">
-        <button
-          type="button"
-          class="btn btn-outline-dark m-2"
-          aria-controls="setting-panel"
-          :aria-expanded="showSettingPanel"
-          aria-label="設定面板"
-          @click="showSettingPanel = !showSettingPanel"
-        >
-          <i class="fas fa-cogs fs-2" aria-hidden="true"></i>
-        </button>
-        <button
-          type="button"
-          class="btn btn-outline-dark m-2"
-          aria-controls="gift-panel"
-          :aria-expanded="showGiftPanel"
-          aria-label="新增禮物"
-          @click="showGiftPanel = !showGiftPanel"
-        >
-          <i class="fas fa-gift fs-2" aria-hidden="true"></i>
-        </button>
+  <template v-else>
+    <header class="container-fluid d-flex align-items-center gap-2 py-3 px-3 px-lg-4">
+      <h1 class="h3 mb-0 me-auto title"><i class="fas fa-tree me-2" aria-hidden="true"></i>抽獎時間</h1>
+      <button type="button" class="btn btn-outline-light" :aria-expanded="showGifts" aria-controls="gift-drawer" @click="showGifts = true">
+        <i class="fas fa-gift" aria-hidden="true"></i><span class="d-none d-sm-inline ms-2">禮物</span>
+      </button>
+      <button type="button" class="btn btn-outline-light" :aria-expanded="showSettings" aria-controls="setting-drawer" @click="showSettings = true">
+        <i class="fas fa-gear" aria-hidden="true"></i><span class="d-none d-sm-inline ms-2">設定</span>
+      </button>
+      <button type="button" class="btn btn-outline-light" :aria-label="fullscreen ? '離開全螢幕' : '全螢幕'" @click="toggleFullscreen">
+        <i class="fas" :class="fullscreen ? 'fa-compress' : 'fa-expand'" aria-hidden="true"></i>
+      </button>
+    </header>
+
+    <main class="container-fluid px-3 px-lg-4 pb-4">
+      <div v-if="shareError" class="alert alert-danger" role="alert">{{ shareError }}</div>
+      <div class="row g-3 g-lg-4 stage-row">
+        <div class="col-lg-8">
+          <DrawStage />
+        </div>
+        <div class="col-lg-4">
+          <WinnerBoard :save="store.$state" @toggle="store.toggleAppeared">
+            <template #actions><ShareButtons /></template>
+          </WinnerBoard>
+        </div>
       </div>
-      <div v-if="shareError" class="alert alert-danger mx-3" role="alert">{{ shareError }}</div>
-      <LotteryDraw />
     </main>
-    <aside v-show="showGiftPanel" id="gift-panel" class="sidebar bg-dark" aria-label="新增禮物">
-      <GiftPanel />
-    </aside>
+
+    <AppDrawer id="gift-drawer" v-model="showGifts" title="禮物" side="end">
+      <GiftManager />
+    </AppDrawer>
+    <AppDrawer id="setting-drawer" v-model="showSettings" title="設定" side="end">
+      <SettingPanel />
+    </AppDrawer>
+  </template>
   </div>
 </template>
 
-<style>
-.sidebar {
-  padding: 30px 0;
+<style scoped>
+.title i {
+  color: var(--lt-gold);
+}
+.title {
+  letter-spacing: 0.05em;
 }
 
+/* Fill the screen on a projector: the stage and the board stretch to the bottom */
 @media (min-width: 992px) {
-  .sidebar {
-    flex: 0 0 280px;
-    min-height: 100vh;
+  .stage-row {
+    min-height: calc(100vh - 6rem);
   }
 }
 </style>

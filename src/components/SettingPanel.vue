@@ -42,9 +42,8 @@ function reset() {
 </script>
 
 <template>
-  <div class="container text-white">
-    <h1 class="text-center">設定面板</h1>
-    <form class="mt-5" @submit.prevent>
+  <div>
+    <form @submit.prevent>
       <div v-for="field in fields" :key="field.key" class="row mb-3">
         <label class="col col-form-label" :for="`config-${field.key}`">{{ field.label }}</label>
         <div class="col">
@@ -59,11 +58,11 @@ function reset() {
         </div>
       </div>
     </form>
-    <h1 class="text-center mt-5">紀錄</h1>
-    <p class="small text-white-50">資料會自動存在這台電腦的瀏覽器裡，重新整理也不會不見。</p>
-    <button type="button" class="btn btn-secondary w-100" @click="fileInput?.click()">匯入</button>
+    <h3 class="h6 lt-muted mt-4">紀錄</h3>
+    <p class="small lt-muted">資料會自動存在這台電腦的瀏覽器裡，重新整理也不會不見。</p>
+    <button type="button" class="btn btn-outline-light w-100" @click="fileInput?.click()">匯入</button>
     <input ref="fileInput" type="file" accept="application/json,.json" hidden @change="importJson" />
-    <button type="button" class="btn btn-secondary w-100 mt-2" @click="exportJson">匯出</button>
+    <button type="button" class="btn btn-outline-light w-100 mt-2" @click="exportJson">匯出</button>
     <button type="button" class="btn btn-outline-danger w-100 mt-2" @click="reset">全部清除</button>
     <p v-if="message" class="small mt-2" role="status">{{ message }}</p>
   </div>
