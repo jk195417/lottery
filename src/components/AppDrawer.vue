@@ -39,7 +39,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
   width: min(380px, 100vw);
   padding: 1.5rem;
   overflow-y: auto;
-  background: #160d1c;
+  background: var(--lt-surface);
   border-color: var(--lt-card-border);
   transition: transform 0.25s ease;
 }

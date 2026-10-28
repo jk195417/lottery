@@ -5,8 +5,9 @@
 }
 
 :root {
-  --lt-bg-top: #3a0d18;
-  --lt-bg-bottom: #0b1024;
+  --lt-bg-top: #134430;
+  --lt-bg-bottom: #05170f;
+  --lt-surface: #0a2619;
   --lt-gold: #d9b26a;
   --lt-red: #b8322a;
   --lt-red-strong: #d43f35;
