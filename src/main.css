@@ -1,0 +1,10 @@
+@font-face {
+  font-family: 'GenJyuuGothic';
+  src: url('./assets/fonts/GenJyuuGothic-Regular.woff2') format('woff2');
+  font-display: swap;
+}
+
+body {
+  min-height: 100vh;
+  font-family: 'GenJyuuGothic', system-ui, sans-serif;
+}
