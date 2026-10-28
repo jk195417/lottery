@@ -3,6 +3,7 @@ import { computed, ref } from 'vue'
 import { availableNumbers, drawProblem, pickRandom } from '../lottery'
 import { useLotteryStore } from '../store'
 import GiftRow from './GiftRow.vue'
+import ShareButtons from './ShareButtons.vue'
 
 const store = useLotteryStore()
 const serial = ref<number | null>(null)
@@ -73,6 +74,7 @@ function draw() {
         總計已抽出 <strong class="text-warning h1">{{ store.winnerCount }}</strong> 位
       </p>
     </div>
+    <ShareButtons />
     <table class="table align-middle">
       <thead>
         <tr>
